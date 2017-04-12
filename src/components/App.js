@@ -1,26 +1,14 @@
-import React from 'react'
-import Navigation from './Navigation'
+import React from 'react';
 
 const App = ({ children }) => (
 	<div className="App">
 		<div className="App-header">
-			<h2>Create React Redux App</h2>
-			<h6>- Yingray Lu -</h6>
-			<p>
-				<i className="material-icons">account_balance</i>
-				Github:&nbsp;
-				<a href="https://github.com/yingray/create-react-redux-app">https://github.com/yingray/create-react-redux-app</a>
-			</p>
-			<Navigation />
+			<h2>Reddit Stream</h2>
 		</div>
-		<br/>
-		<br/>
-		<div>
+		<div className="App-content">
 			{children}
 		</div>
-		<br/>
-		<br/>
 	</div>
-)
+);
 
-export default App
+export default App;
