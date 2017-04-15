@@ -1,5 +1,4 @@
 import { configureStore } from './store';
-import { hashHistory } from 'react-router';
 import expect from 'expect';
 
 function getStore() {
