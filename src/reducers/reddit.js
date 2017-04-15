@@ -2,9 +2,9 @@ import * as ActionTypes from '../consts/actionTypes';
 
 const initialState = {
     query: null,
-    stories: [],
-    storyComments: {},
-    saved: [],
+    posts: [],
+    postComments: {},
+    savedPosts: [],
     after: null,
     before: null
 };
@@ -23,15 +23,15 @@ export const reddit = (state = initialState, action) => {
         return state;
 
     switch (action.type) {
-        case ActionTypes.ADD_STORIES:
-            const oldStories = state.stories.filter(
+        case ActionTypes.ADD_POSTS:
+            const oldPosts = state.posts.filter(
                 (s) => action.payload.data.children.filter((s2) => s.data.name === s2.data.name).length <= 0
             );
 
             return {
                 ...state,
-                stories: [
-                    ...oldStories,
+                posts: [
+                    ...oldPosts,
                     ...action.payload.data.children
                 ],
                 after: action.payload.data.after,
@@ -43,24 +43,24 @@ export const reddit = (state = initialState, action) => {
                 ...state,
                 query: action.query
             };
-        case ActionTypes.SAVE_STORY:
-            if (state.saved.indexOf(action.story) >= 0)
+        case ActionTypes.SAVE_POST:
+            if (state.savedPosts.indexOf(action.post) >= 0)
                 return state;
 
             return {
                 ...state,
-                saved: [
-                    ...state.saved,
-                    action.story
+                savedPosts: [
+                    ...state.savedPosts,
+                    action.post
                 ]
             };
-        case ActionTypes.UNSAVE_STORY:
+        case ActionTypes.UNSAVE_POST:
             return {
                 ...state,
-                saved: state.saved.filter((s) => s !== action.story),
-                storyComments: removeKey(state.storyComments, action.story)
+                savedPosts: state.savedPosts.filter((s) => s !== action.post),
+                postComments: removeKey(state.postComments, action.post)
             };
-        case ActionTypes.ADD_COMMENTS:
+        case ActionTypes.ADD_POST_COMMENTS:
             return {
                 ...state
             };

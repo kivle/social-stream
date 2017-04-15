@@ -1,5 +1,5 @@
-export const ADD_STORIES = 'ADD_STORIES';
+export const ADD_POSTS = 'ADD_POSTS';
 export const SET_QUERY = 'SET_QUERY';
-export const SAVE_STORY = 'SAVE_STORY';
-export const UNSAVE_STORY = 'UNSAVE_STORY';
-export const ADD_COMMENTS = 'ADD_COMMENTS';
+export const SAVE_POST = 'SAVE_POST';
+export const UNSAVE_POST = 'UNSAVE_POST';
+export const ADD_POST_COMMENTS = 'ADD_POST_COMMENTS';
