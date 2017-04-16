@@ -25,7 +25,7 @@ export const reddit = (state = initialState, action) => {
     switch (action.type) {
         case ActionTypes.ADD_POSTS:
             const oldPosts = state.posts.filter(
-                (s) => action.payload.data.children.filter((s2) => s.data.name === s2.data.name).length <= 0
+                s => !action.payload.data.children.some(s2 => s.data.name === s2.data.name)
             );
 
             return {
