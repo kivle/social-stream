@@ -2,7 +2,7 @@ import { reddit } from './reddit';
 import expect from 'expect';
 import * as ActionTypes from '../consts/actionTypes';
 import { redditPosts } from './fixtures/redditPosts';
-import { postComments } from './fixtures/redditPostComments';
+import { postComments, postComments2 } from './fixtures/redditPostComments';
 
 describe('reddit reducer', () => {
     it('sets initial state', () => {
@@ -121,6 +121,31 @@ describe('reddit reducer', () => {
     });
 
     it('appends new comments and updates existing', () => {
-
+        const updatedCommentName = 't1_dgal4bn';
+        const insertedCommentName = 't1_dgakraf';
+        const initial = reddit();
+        const action = {
+            type: ActionTypes.SAVE_POST,
+            post: "t3_65ir6u"
+        };
+        const added = reddit(initial, action);
+        const action2 = {
+            type: ActionTypes.ADD_POST_COMMENTS,
+            post: "t3_65ir6u",
+            payload: postComments
+        };
+        const added2 = reddit(added, action2);
+        const action3 = {
+            type: ActionTypes.ADD_POST_COMMENTS,
+            post: "t3_65ir6u",
+            payload: postComments2
+        }
+        const result = reddit(added2, action3);
+        expect(result.postComments["t3_65ir6u"]).toExist();
+        expect(result.postComments["t3_65ir6u"].length).toBe(4);
+        const comment = result.postComments["t3_65ir6u"].filter(c => c.data.name === updatedCommentName)[0];
+        expect(comment.data.body).toBe("Updated comment body");
+        const comment2 = result.postComments["t3_65ir6u"].filter(c => c.data.name === insertedCommentName)[0];
+        expect(comment2.data.body).toBe("New comment");
     });
 });
