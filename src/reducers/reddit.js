@@ -37,7 +37,6 @@ export const reddit = (state = initialState, action) => {
                 after: action.payload.data.after,
                 before: action.payload.data.before
             };
-            break;
         case ActionTypes.SET_QUERY:
             return {
                 ...state,
