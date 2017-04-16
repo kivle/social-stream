@@ -1,4 +1,4 @@
-export const redditStories = {
+export const redditPosts = {
     "kind": "Listing",
     "data":
     {

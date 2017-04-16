@@ -1,7 +1,8 @@
 import { reddit } from './reddit';
 import expect from 'expect';
 import * as ActionTypes from '../consts/actionTypes';
-import {redditStories} from './fixtures/redditStories';
+import { redditPosts } from './fixtures/redditPosts';
+import { postComments } from './fixtures/redditPostComments';
 
 describe('reddit reducer', () => {
     it('sets initial state', () => {
@@ -15,7 +16,7 @@ describe('reddit reducer', () => {
         const initial = reddit();
         const action = {
             type: ActionTypes.ADD_POSTS,
-            payload: redditStories
+            payload: redditPosts
         };
         const result = reddit(initial, action);
         expect(result.posts.length).toBe(100);
@@ -27,7 +28,7 @@ describe('reddit reducer', () => {
         const initial = reddit();
         const action = {
             type: ActionTypes.ADD_POSTS,
-            payload: redditStories
+            payload: redditPosts
         };
         const added = reddit(initial, action);
         const result = reddit(added, action);
@@ -82,5 +83,44 @@ describe('reddit reducer', () => {
         };
         const result = reddit(added, action2);
         expect(result.savedPosts.length).toBe(0);
+    });
+
+    it('adds comments to posts', () => {
+        const initial = reddit();
+        const action = {
+            type: ActionTypes.SAVE_POST,
+            post: "t3_65ir6u"
+        };
+        const added = reddit(initial, action);
+        const action2 = {
+            type: ActionTypes.ADD_POST_COMMENTS,
+            post: "t3_65ir6u",
+            payload: postComments
+        };
+        const result = reddit(added, action2);
+        expect(result.postComments["t3_65ir6u"]).toExist();
+        expect(result.postComments["t3_65ir6u"].length).toBe(3);
+    });
+
+    it('it does not add comments twice', () => {
+        const initial = reddit();
+        const action = {
+            type: ActionTypes.SAVE_POST,
+            post: "t3_65ir6u"
+        };
+        const added = reddit(initial, action);
+        const action2 = {
+            type: ActionTypes.ADD_POST_COMMENTS,
+            post: "t3_65ir6u",
+            payload: postComments
+        };
+        const added2 = reddit(added, action2);
+        const result = reddit(added2, action2);
+        expect(result.postComments["t3_65ir6u"]).toExist();
+        expect(result.postComments["t3_65ir6u"].length).toBe(3);
+    });
+
+    it('appends new comments and updates existing', () => {
+
     });
 });

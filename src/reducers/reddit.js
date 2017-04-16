@@ -31,8 +31,8 @@ export const reddit = (state = initialState, action) => {
             return {
                 ...state,
                 posts: [
-                    ...oldPosts,
-                    ...action.payload.data.children
+                    ...action.payload.data.children,
+                    ...oldPosts
                 ],
                 after: action.payload.data.after,
                 before: action.payload.data.before
@@ -61,8 +61,18 @@ export const reddit = (state = initialState, action) => {
                 postComments: removeKey(state.postComments, action.post)
             };
         case ActionTypes.ADD_POST_COMMENTS:
+            const existingComments = state.postComments[action.post] || [];
+            const comments = action.payload[1].data.children;
+
             return {
-                ...state
+                ...state,
+                postComments: {
+                    ...state.postComments,
+                    [action.post]: [
+                        ...comments,
+                        ...existingComments.filter(c => !comments.some(c2 => c.data.name === c2.data.name))
+                    ]
+                }
             };
         default:
             return state;
