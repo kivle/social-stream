@@ -1,10 +1,21 @@
 import * as ActionTypes from '../consts/actionTypes';
 
-const ALL_NEW_URL = 'https://www.reddit.com/r/all/new.json';
+const ALL_NEW_URL = 'https://www.reddit.com/r/all/new.json?sort=new&limit=100';
+
+export function setQuery(q) {
+    return {
+        type: ActionTypes.SET_QUERY,
+        query: q
+    };
+}
 
 export function loadNewPosts() {
-    return (dispatch) => {
-        const res = await fetch(ALL_NEW_URL);
+    return async (dispatch, getState) => {
+        const state = getState();
+        let url = `https://www.reddit.com/r/${state.reddit.subreddits}/new.json?sort=new&limit=100`;
+        if (state.reddit.newest)
+            url += `&before=${state.reddit.newest}`;
+        const res = await fetch(url);
         const data = await res.json();
         const action = {
             type: ActionTypes.ADD_POSTS,
@@ -28,8 +39,8 @@ export function unsavePost(post) {
     };
 }
 
-export function addPostComments() {
-    return (dispatch, getState) => {
+export function refreshPostComments() {
+    return async (dispatch, getState) => {
         const state = getState();
         for (let i = 0; i < state.reddit.savedPosts.length; i++) {
             const post = state.reddit.savedPosts[i];

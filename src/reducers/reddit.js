@@ -1,10 +1,12 @@
 import * as ActionTypes from '../consts/actionTypes';
 
 const initialState = {
-    query: null,
+    subreddits: 'news+worldnews+upliftingnews+truenews+indepthstories+interview+entertainment+newsporn+truereddit+newsoftheweird+open_news+uncensorednews+internationalnews',
+    query: '',
     posts: [],
     postComments: {},
     savedPosts: [],
+    newest: null,
     after: null,
     before: null
 };
@@ -28,12 +30,23 @@ export const reddit = (state = initialState, action) => {
                 s => !action.payload.data.children.some(s2 => s.data.name === s2.data.name)
             );
 
+            const newestPost = action.payload.data.children.reduce((aggr, p) => {
+                if (!aggr.post || aggr.created_utc < p.data.created_utc) {
+                    return {
+                        post: p.data.name,
+                        created_utc: p.data.created_utc
+                    };
+                }
+                return aggr;
+            }, {})
+
             return {
                 ...state,
                 posts: [
                     ...action.payload.data.children,
                     ...oldPosts
                 ],
+                newest: newestPost.post ? newestPost.post : state.newest,
                 after: action.payload.data.after,
                 before: action.payload.data.before
             };
