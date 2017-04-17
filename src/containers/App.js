@@ -1,13 +1,15 @@
 import React from 'react';
 import '../styles/App.css';
 
+import {PostsTable} from '../components/PostsTable';
+
 const App = ({ children }) => (
     <div className="App">
         <div className="App-left">
-            Left
+            <PostsTable />
         </div>
         <div className="App-right">
-            Right
+            <PostsTable />
         </div>
     </div>
 );

@@ -1,5 +1,11 @@
 .App {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-gap: 10px;
+    display: flex;
+}
+
+.App-left {
+    min-width: 500px;
+}
+
+.App-right {
+    min-width: 500px;
 }
