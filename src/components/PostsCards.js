@@ -11,7 +11,7 @@ import {
 export class PostsCards extends Component {
     render() {
         const posts = (this.props.posts || []).map(p => {
-            const thumbnail = /^http/.test(p.data.thumbnail) ? 
+            const thumbnail = /^https?:/.test(p.data.thumbnail) ? 
                 p.data.thumbnail : 
                 "http://icons.iconarchive.com/icons/uiconstock/socialmedia/512/Reddit-icon.png";
 
