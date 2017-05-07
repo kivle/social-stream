@@ -8,7 +8,7 @@ export class PostsView extends Component {
 
     constructor(props) {
         super(props);
-        this.props.onLoadNewPosts();
+        this.props.onLoadInitialPosts();
         this.interval = setInterval(this.props.onLoadNewPosts, 60000);
     }
 

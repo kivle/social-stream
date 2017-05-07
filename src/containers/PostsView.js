@@ -25,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onLoadNewPosts: () => {
             dispatch(Actions.loadNewPosts())
+        },
+        onLoadInitialPosts: () => {
+            dispatch(Actions.loadInitialPosts())
         }
     }
 };

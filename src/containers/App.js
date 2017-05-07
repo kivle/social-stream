@@ -7,7 +7,7 @@ import {PostsView} from '../containers/PostsView';
 
 const paperStyle = {
   margin: 5,
-  padding: 20
+  padding: 10
 };
 
 const App = ({ children }) => (

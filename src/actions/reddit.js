@@ -1,7 +1,5 @@
 import * as ActionTypes from '../consts/actionTypes';
 
-const ALL_NEW_URL = 'https://www.reddit.com/r/all/new.json?sort=new&limit=100';
-
 export function setQuery(q) {
     return {
         type: ActionTypes.SET_QUERY,
@@ -12,17 +10,35 @@ export function setQuery(q) {
 export function loadNewPosts() {
     return async (dispatch, getState) => {
         const state = getState();
-        let url = `https://www.reddit.com/r/${state.reddit.subreddits}/new.json?sort=new&limit=100`;
-        if (state.reddit.newest)
-            url += `&before=${state.reddit.newest}`;
-        const res = await fetch(url);
-        const data = await res.json();
+        const data = await getPosts(state.reddit.subreddits, "new.json", 10);
         const action = {
             type: ActionTypes.ADD_POSTS,
             payload: data
         };
         dispatch(action);
     };
+}
+
+export function loadInitialPosts() {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const promises = [getPosts(state.reddit.subreddits, "new.json", 100),
+                          getPosts(state.reddit.subreddits, "rising.json", 100),
+                          getPosts(state.reddit.subreddits, ".json", 100)];
+        for (let result of promises) {
+            const action = {
+                type: ActionTypes.ADD_POSTS,
+                payload: await result
+            };
+            dispatch(action);
+        }
+    }
+}
+
+async function getPosts(reddits, source, num) {
+    let url = `https://www.reddit.com/r/${reddits}/${source}?sort=new&limit=${num}`;
+    const res = await fetch(url);
+    return await res.json();
 }
 
 export function savePost(post) {

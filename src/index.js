@@ -17,10 +17,10 @@ const state = window.__initialState__ || undefined;
 const store = configureStore(state);
 
 render(
-  <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-    <Provider store={store}>
+  <Provider store={store}>
+    <MuiThemeProvider>
       <App />
-    </Provider>
-  </MuiThemeProvider>,
+    </MuiThemeProvider>
+  </Provider>,
   document.getElementById('root')
 );
