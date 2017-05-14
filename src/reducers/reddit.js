@@ -38,7 +38,7 @@ export const reddit = (state = initialState, action) => {
                     };
                 }
                 return aggr;
-            }, {})
+            }, {});
 
             return {
                 ...state,
